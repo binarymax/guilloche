@@ -28,7 +28,7 @@
 		<script>
 			Math.tau = Math.PI*2;
 
-			var step = 0.00002;
+			var step = 0.00005;
 			var zoom = 10;
 			var width = window.innerWidth;
 			var height = window.innerHeight
@@ -255,11 +255,16 @@
 				//geometry = ribbon();
 				//geometry = cross();
 				//geometry = rosette();
-				geometry = shell();
+				//geometry = shell();
 
 				materials[0] = new THREE.PointsMaterial( { size: size } );
-				particles = new THREE.Points( geometry, materials[0] );
-				scene.add( particles );
+				//particles = new THREE.Points( geometry, materials[0] );
+				//scene.add( particles );
+				scene.add( new THREE.Points( knee(), materials[0] ) );
+				scene.add( new THREE.Points( river(), materials[0] ) );
+				scene.add( new THREE.Points( cross(), materials[0] ) );
+				scene.add( new THREE.Points( shell(), materials[0] ) );
+				scene.add( new THREE.Points( rosette(), materials[0] ) );
 
 				//-------------------------------
 
