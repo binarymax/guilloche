@@ -59,9 +59,9 @@
 				var rrr = (R+r)/r;
 				for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
 					var vertex = new THREE.Vector3();
-					vertex.x = Math.round(((rr*Math.cos(theta)) + (rp*Math.cos(rrr*theta))) * zoom);
-					vertex.y = Math.round(((rr*Math.sin(theta)) - (rp*Math.sin(rrr*theta))) * zoom);
-					vertex.z = Math.round(((rr*Math.sin(theta)) + (rp*Math.cos(rrr*theta))) * zoom);
+					vertex.x = ((rr*Math.cos(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
+					vertex.y = ((rr*Math.sin(theta)) - (rp*Math.sin(rrr*theta))) * zoom;
+					vertex.z = ((rr*Math.sin(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
 					geometry.vertices.push( vertex );
 				}
 
@@ -91,9 +91,9 @@
 				var rrr = (R+r)/r;
 				for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
 					var vertex = new THREE.Vector3();
-					vertex.x = Math.round(((rr*Math.cos(theta)) + (rp*Math.cos(rrr*theta))) * zoom);
-					vertex.y = Math.round(((rr*Math.sin(theta)) - (rp*Math.sin(rrr*theta))) * zoom);
-					vertex.z = Math.round(((rr*Math.tan(theta)) + (rp*Math.tan(rrr*theta))) * zoom);
+					vertex.x = ((rr*Math.cos(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
+					vertex.y = ((rr*Math.sin(theta)) - (rp*Math.sin(rrr*theta))) * zoom;
+					vertex.z = ((rr*Math.tan(theta)) + (rp*Math.tan(rrr*theta))) * zoom;
 					geometry.vertices.push( vertex );
 				}
 
@@ -123,9 +123,9 @@
 				var rrr = (R+r)/r;
 				for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
 					var vertex = new THREE.Vector3();
-					vertex.x = Math.round(((rr*Math.cos(theta)) + (rp*Math.cos(rrr*theta))) * zoom);
-					vertex.y = Math.round(((rr*Math.sin(theta)) - (rp*Math.tan(rrr*theta))) * zoom);
-					vertex.z = Math.round(((rr*Math.cos(theta)) + (rp*Math.sin(rrr*theta))) * zoom);
+					vertex.x = ((rr*Math.cos(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
+					vertex.y = ((rr*Math.sin(theta)) - (rp*Math.tan(rrr*theta))) * zoom;
+					vertex.z = ((rr*Math.cos(theta)) + (rp*Math.sin(rrr*theta))) * zoom;
 					geometry.vertices.push( vertex );
 				}
 
@@ -154,9 +154,9 @@
 				var rrr = (R+r)/r;
 				for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
 					var vertex = new THREE.Vector3();
-					vertex.x = Math.round(((rr*Math.tan(theta)) + (rp*Math.tan(rrr*theta))) * zoom);
-					vertex.y = Math.round(((rr*Math.sin(theta)) - (rp*Math.cos(rrr*theta))) * zoom);
-					vertex.z = Math.round(((rr*Math.tan(theta)) + (rp*Math.sin(rrr*theta))) * zoom);
+					vertex.x = ((rr*Math.tan(theta)) + (rp*Math.tan(rrr*theta))) * zoom;
+					vertex.y = ((rr*Math.sin(theta)) - (rp*Math.cos(rrr*theta))) * zoom;
+					vertex.z = ((rr*Math.tan(theta)) + (rp*Math.sin(rrr*theta))) * zoom;
 					geometry.vertices.push( vertex );
 				}
 
@@ -186,9 +186,9 @@
 				var rrr = (R+r)/r;
 				for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
 					var vertex = new THREE.Vector3();
-					vertex.x = Math.round(((rr*Math.sin(theta)) + (rp*Math.tan(rrr*theta))) * zoom);
-					vertex.y = Math.round(((rr*Math.tan(theta)) - (rp*Math.sin(rrr*theta))) * zoom);
-					vertex.z = Math.round(((rr*Math.sin(theta)) + (rp*Math.cos(rrr*theta))) * zoom);
+					vertex.x = ((rr*Math.sin(theta)) + (rp*Math.tan(rrr*theta))) * zoom;
+					vertex.y = ((rr*Math.tan(theta)) - (rp*Math.sin(rrr*theta))) * zoom;
+					vertex.z = ((rr*Math.sin(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
 					geometry.vertices.push( vertex );
 				}
 				return geometry;
@@ -217,9 +217,9 @@
 				var rrr = (R+r)/r;
 				for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
 					var vertex = new THREE.Vector3();
-					vertex.x = Math.round(((rr*Math.tan(theta)) + (rp*Math.tan(rrr*theta))) * zoom);
-					vertex.y = Math.round(((rr*Math.sin(theta)) - (rp*Math.sin(rrr*theta))) * zoom);
-					vertex.z = Math.round(((rr*Math.tan(theta)) + (rp*Math.cos(rrr*theta))) * zoom);
+					vertex.x = ((rr*Math.tan(theta)) + (rp*Math.tan(rrr*theta))) * zoom;
+					vertex.y = ((rr*Math.sin(theta)) - (rp*Math.sin(rrr*theta))) * zoom;
+					vertex.z = ((rr*Math.tan(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
 					geometry.vertices.push( vertex );
 				}
 				return geometry;
