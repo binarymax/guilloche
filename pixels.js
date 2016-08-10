@@ -1,13 +1,38 @@
+Math.tau = Math.tau || (Math.PI*2);
+
 var Pixels = (function(){
 	
-	var Canvas = function(id,width,height) {
+	var rgba = function(color) {return 'rgba('+color.r+','+color.g+','+color.b+','+color.a+')';};
+
+	var Canvas = function(id,width,height,classic) {
 		var element = this.element = document.getElementById(id);
+		element.style.width = '100%';
+		element.style.height = '100%';
+		width = width || element.innerWidth;
+		height = height || element.innerHeight;
 		element.width = this.width = width;
 		element.height = this.height = height;
-		element.style.width = this.width +'px';
-		element.style.height = this.height +'px';
+		this.width = width;
+		this.height = height;
 		this.context = this.element.getContext('2d');
-		this.buffer = this.context.getImageData(0,0,this.width,this.height);		
+		this.classic = classic?true:false;
+		this.buffer = this.context.getImageData(0,0,this.width,this.height);
+	};
+
+	Canvas.prototype.put = function(x,y,color,buffer) {
+		if(this.classic) {
+			this.putCircle(x,y,color);
+		} else {
+			this.putPixel(x,y,color,buffer);
+		}
+	};
+
+	Canvas.prototype.putCircle = function(x,y,color) {
+		this.context.beginPath();
+		this.context.fillStyle = rgba(color);
+		this.context.arc(x, y, 3, 0, Math.tau, false);
+		this.context.closePath();
+		this.context.fill();		
 	};
 
 	Canvas.prototype.putPixel = function(x,y,color,buffer) {
@@ -22,15 +47,15 @@ var Pixels = (function(){
 	Canvas.prototype.clean = function() {
 		this.context.fillStyle="rgba(255,255,255,255)";
 		this.context.fillRect(0,0,this.width,this.height);
-		this.buffer = this.context.getImageData(0,0,this.width,this.height);
+		if(!this.classic) this.buffer = this.context.getImageData(0,0,this.width,this.height);
 	};
 
 	Canvas.prototype.render = function() {
-		this.context.putImageData(this.buffer,0,0);
+		if(!this.classic) this.context.putImageData(this.buffer,0,0);
 	};
 
-	return function(id,width,height){
-		return new Canvas(id,width,height);
+	return function(id,width,height,classic){
+		return new Canvas(id,width,height,classic);
 	};
 
 })();
