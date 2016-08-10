@@ -7,10 +7,11 @@ var Guilloche = (function(){
 	var _zoom = 5;
 
 	var _color = function(theta,step){
+		var c = Math.round(theta*(1/step))%255; 
 		return {
-			r:Math.round(theta*(1/step))%255,
-			g:Math.round(theta*(1/step))%255,
-			b:Math.round(theta*(1/step))%255,
+			r:c,
+			g:c,
+			b:c,
 			a:255
 		};
 	}
