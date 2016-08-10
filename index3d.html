@@ -26,39 +26,84 @@
 		<script src="three.js"></script>
 
 		<script>
+			Math.tau = Math.PI*2;
 
-			var container, stats;
-			var camera, scene, renderer, particles, geometry, materials = [], parameters, i, h, color, size;
-			var mouseX = 0, mouseY = 0;
+			var step = 0.00002;
+			var zoom = 10;
+			var width = window.innerWidth;
+			var height = window.innerHeight
+			var cx = width>>1;
+			var cy = height>>1;
+			var cz = Math.min(cx,cy);
 
-			var windowHalfX = window.innerWidth / 2;
-			var windowHalfY = window.innerHeight / 2;
 
-			init();
-			animate();
+			function rosette() {
 
-			function init() {
+				var geometry = new THREE.Geometry();
 
-				container = document.getElementById( 'rosette' );
+				var R = 60;
+				var Rs = 0;
+				var Rmin = 50;
+				var Rmax = 50;
+				var r = -0.25;
+				var rs = 0.0001;
+				var rmin = -0.40;
+				var rmax = -0.10;
+				var p = 30;
+				var ps = 0.1;
+				var pmin = 8;
+				var pmax = 16;
 
-				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 3000 );
-				camera.position.z = 500;
+				var rr = R+r;
+				var rp = r+p;
+				var rrr = (R+r)/r;
+				for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
+					var vertex = new THREE.Vector3();
+					vertex.x = Math.round(((rr*Math.cos(theta)) + (rp*Math.cos(rrr*theta))) * zoom);
+					vertex.y = Math.round(((rr*Math.sin(theta)) - (rp*Math.sin(rrr*theta))) * zoom);
+					vertex.z = Math.round(((rr*Math.sin(theta)) + (rp*Math.cos(rrr*theta))) * zoom);
+					geometry.vertices.push( vertex );
+				}
 
-				scene = new THREE.Scene();
-				//scene.fog = new THREE.FogExp2( 0x000000, 0.0007 );
+				return geometry;
 
-				geometry = new THREE.Geometry();
+			}
 
-				//-------------------------------
-				//GUILLOCHE:
-				Math.tau = Math.PI*2;
-				var step = 0.00001;
-				var zoom = 10;
-				var width = window.innerWidth;
-				var height = window.innerHeight
-				var cx = width>>1;
-				var cy = height>>1;
-				var cz = Math.min(cx,cy);
+			function shell() {
+
+				var geometry = new THREE.Geometry();
+
+				var R = 60;
+				var Rs = 0;
+				var Rmin = 50;
+				var Rmax = 50;
+				var r = -0.25;
+				var rs = 0.0001;
+				var rmin = -0.40;
+				var rmax = -0.10;
+				var p = 30;
+				var ps = 0.1;
+				var pmin = 8;
+				var pmax = 16;
+
+				var rr = R+r;
+				var rp = r+p;
+				var rrr = (R+r)/r;
+				for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
+					var vertex = new THREE.Vector3();
+					vertex.x = Math.round(((rr*Math.cos(theta)) + (rp*Math.cos(rrr*theta))) * zoom);
+					vertex.y = Math.round(((rr*Math.sin(theta)) - (rp*Math.sin(rrr*theta))) * zoom);
+					vertex.z = Math.round(((rr*Math.tan(theta)) + (rp*Math.tan(rrr*theta))) * zoom);
+					geometry.vertices.push( vertex );
+				}
+
+				return geometry;
+
+			}			
+
+			function knee() {
+
+				var geometry = new THREE.Geometry();
 
 				var R = 50;
 				var Rs = 0;
@@ -84,8 +129,133 @@
 					geometry.vertices.push( vertex );
 				}
 
+				return geometry;
 
-				//-------------------------------
+			}
+
+			function ribbon() {
+
+				var geometry = new THREE.Geometry();
+
+				var R = 50;
+				var Rs = 0;
+				var Rmin = 50;
+				var Rmax = 50;
+				var r = -0.25;
+				var rs = 0.0001;
+				var rmin = -0.50;
+				var rmax = -0.01;
+				var p = 12;
+				var ps = 0.1;
+				var pmin = 4;
+				var pmax = 20;
+				var rr = R+r;
+				var rp = r+p;
+				var rrr = (R+r)/r;
+				for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
+					var vertex = new THREE.Vector3();
+					vertex.x = Math.round(((rr*Math.tan(theta)) + (rp*Math.tan(rrr*theta))) * zoom);
+					vertex.y = Math.round(((rr*Math.sin(theta)) - (rp*Math.cos(rrr*theta))) * zoom);
+					vertex.z = Math.round(((rr*Math.tan(theta)) + (rp*Math.sin(rrr*theta))) * zoom);
+					geometry.vertices.push( vertex );
+				}
+
+				return geometry;
+
+			}
+
+			function cross() {
+
+				var geometry = new THREE.Geometry();
+
+				var R = 50;
+				var Rs = 0;
+				var Rmin = 50;
+				var Rmax = 50;
+				var r = -0.25;
+				var rs = 0.0001;
+				var rmin = -0.50;
+				var rmax = -0.01;
+				var p = 12;
+				var ps = 0.1;
+				var pmin = 4;
+				var pmax = 20;
+
+				var rr = R+r;
+				var rp = r+p;
+				var rrr = (R+r)/r;
+				for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
+					var vertex = new THREE.Vector3();
+					vertex.x = Math.round(((rr*Math.sin(theta)) + (rp*Math.tan(rrr*theta))) * zoom);
+					vertex.y = Math.round(((rr*Math.tan(theta)) - (rp*Math.sin(rrr*theta))) * zoom);
+					vertex.z = Math.round(((rr*Math.sin(theta)) + (rp*Math.cos(rrr*theta))) * zoom);
+					geometry.vertices.push( vertex );
+				}
+				return geometry;
+
+			}
+
+			function river() {
+
+				var geometry = new THREE.Geometry();
+
+				var R = 50;
+				var Rs = 0;
+				var Rmin = 50;
+				var Rmax = 50;
+				var r = -0.25;
+				var rs = 0.0001;
+				var rmin = -0.40;
+				var rmax = -0.10;
+				var p = 12;
+				var ps = 0.1;
+				var pmin = 8;
+				var pmax = 16;
+
+				var rr = R+r;
+				var rp = r+p;
+				var rrr = (R+r)/r;
+				for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
+					var vertex = new THREE.Vector3();
+					vertex.x = Math.round(((rr*Math.tan(theta)) + (rp*Math.tan(rrr*theta))) * zoom);
+					vertex.y = Math.round(((rr*Math.sin(theta)) - (rp*Math.sin(rrr*theta))) * zoom);
+					vertex.z = Math.round(((rr*Math.tan(theta)) + (rp*Math.cos(rrr*theta))) * zoom);
+					geometry.vertices.push( vertex );
+				}
+				return geometry;
+
+			}
+
+		</script>
+
+		<script>
+
+			var container, stats;
+			var camera, scene, renderer, particles, geometry, materials = [], parameters, i, h, color, size;
+			var mouseX = 0, mouseY = 0;
+
+			var windowHalfX = window.innerWidth / 2;
+			var windowHalfY = window.innerHeight / 2;
+
+			init();
+			animate();
+
+			function init() {
+
+				container = document.getElementById( 'rosette' );
+
+				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 3000 );
+				camera.position.z = 1000;
+
+				scene = new THREE.Scene();
+				//scene.fog = new THREE.FogExp2( 0x000000, 0.0007 );
+
+				//geometry = knee();
+				//geometry = river();
+				//geometry = ribbon();
+				//geometry = cross();
+				//geometry = rosette();
+				geometry = shell();
 
 				materials[0] = new THREE.PointsMaterial( { size: size } );
 				particles = new THREE.Points( geometry, materials[0] );
@@ -97,10 +267,10 @@
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild( renderer.domElement );
-				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-				window.addEventListener( 'resize', onWindowResize, false );
+				//document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				//document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+				//document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+				//window.addEventListener( 'resize', onWindowResize, false );
 			}
 
 			function onWindowResize() {
@@ -139,10 +309,20 @@
 			}
 
 			function render() {
+				
 				var time = Date.now() * 0.00005;
 				camera.position.x += ( mouseX - camera.position.x ) * 0.05;
 				camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
+
 				camera.lookAt( scene.position );
+
+				for ( i = 0; i < scene.children.length; i ++ ) {
+					var object = scene.children[ i ];
+					if ( object instanceof THREE.Points ) {
+						object.rotation.y = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
+					}
+				}
+
 				renderer.render( scene, camera );
 			}
 
