@@ -1,0 +1,53 @@
+var cross = Animate('guilloche',window.innerWidth,window.innerHeight,[
+	{
+		fn : Guilloche.cross,
+		R : 50,
+		Rs : 0,
+		Rmin : 50,
+		Rmax : 50,
+		r : -0.25,
+		rs : 0.0001,
+		rmin : -0.50,
+		rmax : -0.01,
+		p : 12,
+		ps : 0.1,
+		pmin : 4,
+		pmax : 20,
+		zoom : 4,
+		step : 0.0001
+	},
+	{
+		fn : Guilloche.ribbon,
+		R : 50,
+		Rs : 0,
+		Rmin : 50,
+		Rmax : 50,
+		r : -0.25,
+		rs : 0.0001,
+		rmin : -0.50,
+		rmax : -0.01,
+		p : 12,
+		ps : 0.1,
+		pmin : 4,
+		pmax : 20,
+		zoom : 4,
+		step : 0.0001
+	},
+	{
+		fn : Guilloche.rosette,
+		R : 60,
+		Rs : 0,
+		Rmin : 50,
+		Rmax : 50,
+		r : -0.25,
+		rs : 0.0001,
+		rmin : -0.50,
+		rmax : -0.01,
+		p : 25,
+		ps : 0.1,
+		pmin : 4,
+		pmax : 20,
+		zoom : 4,
+		step : 0.0001
+	}	
+]);
