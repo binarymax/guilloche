@@ -22,37 +22,34 @@
 		precision highp float;
 		#endif
 
-		attribute float size;
+		uniform float amplitude;
+		varying vec3 vNormal;
 
 		void main() {
-			vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-			//gl_PointSize = sqrt(mvPosition.x*mvPosition.x + mvPosition.y*mvPosition.y + mvPosition.z*mvPosition.z)/8844.0;
+			vNormal = normal;
+			vec3 nwPosition = position + 1.0 * vec3( amplitude );
+			vec4 mvPosition = modelViewMatrix * vec4( nwPosition, 1.0 );
+			gl_PointSize = 1.0;
 			gl_Position = projectionMatrix * mvPosition;
 		}
 	</script>
 
 	<script type="x-shader/x-fragment" id="fragmentshader">
-		/**
-		* Set the colour to a lovely pink.
-		* Note that the color is a 4D Float
-		* Vector, R,G,B and A and each part
-		* runs from 0.0 to 1.0
-		*/
-
 		#ifdef GL_ES
 		precision highp float;
 		#endif
 
+		varying vec3 vNormal;
+
 		void main() {
-			gl_FragColor = vec4(1.0,  // R
-								1.0,  // G
-								1.0,  // B
-								1.0); // A
+			vec3 fNormal = vNormal;
+			gl_FragColor = vec4(1.0,1.0,1.0,1.0);
 		}
 	</script>
 
 
 	<!-- Scripts -->
+	<script type="text/javascript" src="mic.js"></script>
 	<script type="text/javascript" src="three.js"></script>
 	<script type="text/javascript" src="guilloche3d.js"></script>
 	<script type="text/javascript" src="animate3d.js"></script>

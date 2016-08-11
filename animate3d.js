@@ -1,6 +1,9 @@
 var Animate = (function(){
 
 	var Animator = function(id,width,height,settings) {
+		
+		var self = this;
+
 		this.settings = (settings instanceof Array) ? settings:[settings];
 
 		width = width || window.innerWidth;
@@ -18,20 +21,30 @@ var Animate = (function(){
 		this.camera.position.z = 1000;
 		this.scene = new THREE.Scene();
 
+		this.frame = 0;
+		this.ambient = 0;
+
 		this.materials = new THREE.PointsMaterial( { size: 1 } );
+
+		this.uniforms = {
+			amplitude:{
+				type:'f',
+				value:0
+			}
+		};
 
 		var vertexshader = document.getElementById("vertexshader").innerText;
 		var fragmentshader = document.getElementById("fragmentshader").innerText;
 
 		this.shadermaterial = new THREE.ShaderMaterial({
-			vertexShader:   vertexshader,
+			uniforms: self.uniforms,
+			vertexShader: vertexshader,
 			fragmentShader: fragmentshader
 		});
 
 		for(var i=0;i<settings.length;i++) {
 			var set = settings[i];
 			var geo = set.fn(set.R, set.r, set.p, set.step, set.zoom);
-			//var pts = new THREE.Points( geo, this.materials );
 			var pts = new THREE.Points( geo, this.shadermaterial );
 			this.scene.add( pts );
 		}
@@ -64,7 +77,18 @@ var Animate = (function(){
 			}
 		}
 
+		//self.frame+=0.05;
+		//self.uniforms.amplitude.value = Math.sin(self.frame)*50;
+		self.uniforms.amplitude.value = self.ambient;
+
 		self.renderer.render( self.scene, self.camera );
+	};
+
+	Animator.prototype.listen = function() {
+		var self = this;
+		mic.listen(function(val){
+			self.ambient = val;
+		});
 	};
 
 	Animator.prototype.loop = function() {
@@ -79,6 +103,7 @@ var Animate = (function(){
 
 	return function(id,width,height,settings) {
 		var a = new Animator(id,width,height,settings);
+		a.listen();
 		a.loop();
 		return a;
 	}
