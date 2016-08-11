@@ -73,7 +73,7 @@ var Animate = (function(){
 		for ( i = 0; i < self.scene.children.length; i++ ) {
 			var object = self.scene.children[i];
 			if (object instanceof THREE.Points) {
-				object.rotation.y = time * ((i<4) ? (i+1) : (-(i+1)));
+				object.rotation.y = time * ((i<4) ? (i+4) : (-(i+4)));
 			}
 		}
 
