@@ -5,16 +5,52 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
-			body {
+			* {
 				background-color: #000000;
 				margin: 0px;
 				padding: 0px;
+				white-space: nowrap;
 			}
 		</style>
 	</head>
 <body>
 
 	<div id="guilloche"></div>
+
+	<script type="x-shader/x-vertex" id="vertexshader">
+		#ifdef GL_ES
+		precision highp float;
+		#endif
+
+		attribute float size;
+
+		void main() {
+			vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+			//gl_PointSize = sqrt(mvPosition.x*mvPosition.x + mvPosition.y*mvPosition.y + mvPosition.z*mvPosition.z)/8844.0;
+			gl_Position = projectionMatrix * mvPosition;
+		}
+	</script>
+
+	<script type="x-shader/x-fragment" id="fragmentshader">
+		/**
+		* Set the colour to a lovely pink.
+		* Note that the color is a 4D Float
+		* Vector, R,G,B and A and each part
+		* runs from 0.0 to 1.0
+		*/
+
+		#ifdef GL_ES
+		precision highp float;
+		#endif
+
+		void main() {
+			gl_FragColor = vec4(1.0,  // R
+								1.0,  // G
+								1.0,  // B
+								1.0); // A
+		}
+	</script>
+
 
 	<!-- Scripts -->
 	<script type="text/javascript" src="three.js"></script>

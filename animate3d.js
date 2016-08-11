@@ -20,10 +20,19 @@ var Animate = (function(){
 
 		this.materials = new THREE.PointsMaterial( { size: 1 } );
 
+		var vertexshader = document.getElementById("vertexshader").innerText;
+		var fragmentshader = document.getElementById("fragmentshader").innerText;
+
+		this.shadermaterial = new THREE.ShaderMaterial({
+			vertexShader:   vertexshader,
+			fragmentShader: fragmentshader
+		});
+
 		for(var i=0;i<settings.length;i++) {
 			var set = settings[i];
 			var geo = set.fn(set.R, set.r, set.p, set.step, set.zoom);
-			var pts = new THREE.Points( geo, this.materials );
+			//var pts = new THREE.Points( geo, this.materials );
+			var pts = new THREE.Points( geo, this.shadermaterial );
 			this.scene.add( pts );
 		}
 
