@@ -21,18 +21,26 @@ var Guilloche = (function(){
 		step = step || _step;
 		zoom = zoom || _zoom;
 		color = color || _color;
-		var geometry = new THREE.Geometry();
+
+		var size = Math.floor(Math.tau/step);
+
+		var geometry = new THREE.BufferGeometry();
+		var positions = new Float32Array(size * 3);
+		var thetas = new Float32Array(size);
 
 		var rr = R+r;
 		var rp = r+p;
 		var rrr = (R+r)/r;
-		for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
-			var vertex = new THREE.Vector3();
-			vertex.x = ((rr*Math.cos(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
-			vertex.y = ((rr*Math.sin(theta)) - (rp*Math.sin(rrr*theta))) * zoom;
-			vertex.z = ((rr*Math.sin(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
-			geometry.vertices.push( vertex );
+		for(var theta=0,x=0,y=0,i=0;i<size;i++) {			
+			thetas[i] = theta;
+			positions[i+0] = ((rr*Math.cos(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
+			positions[i+1] = ((rr*Math.sin(theta)) - (rp*Math.sin(rrr*theta))) * zoom;
+			positions[i+2] = ((rr*Math.sin(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
+			theta+=step;
 		}
+
+		geometry.addAttribute('position',new THREE.BufferAttribute(positions,3));
+		geometry.addAttribute('theta',new THREE.BufferAttribute(thetas,1));
 
 		return geometry;
 	}
@@ -44,22 +52,29 @@ var Guilloche = (function(){
 		zoom = zoom || _zoom;
 		color = color || _color;
 
-		var geometry = new THREE.Geometry();
+		var size = Math.floor(Math.tau/step);
+
+		var geometry = new THREE.BufferGeometry();
+		var positions = new Float32Array(size * 3);
+		var thetas = new Float32Array(size);
 
 		var rr = R+r;
 		var rp = r+p;
 		var rrr = (R+r)/r;
-		for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
-			var vertex = new THREE.Vector3();
-			vertex.x = ((rr*Math.cos(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
-			vertex.y = ((rr*Math.sin(theta)) - (rp*Math.sin(rrr*theta))) * zoom;
-			vertex.z = ((rr*Math.tan(theta)) + (rp*Math.tan(rrr*theta))) * zoom;
-			geometry.vertices.push( vertex );
+		for(var theta=0,x=0,y=0,i=0;i<size;i++) {			
+			thetas[i] = theta;
+			positions[i+0] = ((rr*Math.cos(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
+			positions[i+1] = ((rr*Math.sin(theta)) + (rp*Math.sin(rrr*theta))) * zoom;
+			positions[i+2] = ((rr*Math.tan(theta)) + (rp*Math.tan(rrr*theta))) * zoom;
+
+			theta+=step;
 		}
+
+		geometry.addAttribute('position',new THREE.BufferAttribute(positions,3));
+		geometry.addAttribute('theta',new THREE.BufferAttribute(thetas,1));
 
 		return geometry;
 	}
-
 
 	//------------------------------------------------------
 	//A cylinder!
@@ -68,18 +83,27 @@ var Guilloche = (function(){
 		zoom = zoom || _zoom;
 		color = color || _color;
 
-		var geometry = new THREE.Geometry();
+		var size = Math.floor(Math.tau/step);
+
+		var geometry = new THREE.BufferGeometry();
+		var positions = new Float32Array(size * 3);
+		var thetas = new Float32Array(size);
 
 		var rr = R+r;
 		var rp = r+p;
 		var rrr = (R+r)/r;
-		for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
-			var vertex = new THREE.Vector3();
-			vertex.x = ((rr*Math.cos(theta)) + (rp*Math.sin(rrr*theta))) * zoom;
-			vertex.y = ((rr*Math.sin(theta)) - (rp*Math.sin(rrr*theta))) * zoom;
-			vertex.z = ((rr*Math.cos(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
-			geometry.vertices.push( vertex );
+		for(var theta=0,x=0,y=0,i=0;i<size;i++) {			
+			thetas[i] = theta;
+			positions[i+0] = ((rr*Math.cos(theta)) + (rp*Math.sin(rrr*theta))) * zoom;
+			positions[i+1] = ((rr*Math.sin(theta)) - (rp*Math.sin(rrr*theta))) * zoom;
+			positions[i+2] = ((rr*Math.cos(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
+
+			theta+=step;
 		}
+
+		geometry.addAttribute('position',new THREE.BufferAttribute(positions,3));
+		geometry.addAttribute('theta',new THREE.BufferAttribute(thetas,1));
+
 		return geometry;
 	}
 
@@ -90,18 +114,26 @@ var Guilloche = (function(){
 		zoom = zoom || _zoom;
 		color = color || _color;
 
-		var geometry = new THREE.Geometry();
+
+		var size = Math.floor(Math.tau/step);
+
+		var geometry = new THREE.BufferGeometry();
+		var positions = new Float32Array(size * 3);
+		var thetas = new Float32Array(size);
 
 		var rr = R+r;
 		var rp = r+p;
 		var rrr = (R+r)/r;
-		for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
-			var vertex = new THREE.Vector3();
-			vertex.x = ((rr*Math.tan(theta)) + (rp*Math.tan(rrr*theta))) * zoom;
-			vertex.y = ((rr*Math.sin(theta)) - (rp*Math.cos(rrr*theta))) * zoom;
-			vertex.z = ((rr*Math.tan(theta)) + (rp*Math.sin(rrr*theta))) * zoom;
-			geometry.vertices.push( vertex );
+		for(var theta=0,x=0,y=0,i=0;i<size;i++) {			
+			thetas[i] = theta;
+			positions[i+0] = ((rr*Math.tan(theta)) + (rp*Math.tan(rrr*theta))) * zoom;
+			positions[i+1] = ((rr*Math.sin(theta)) - (rp*Math.cos(rrr*theta))) * zoom;
+			positions[i+2] = ((rr*Math.tan(theta)) + (rp*Math.sin(rrr*theta))) * zoom;
+			theta+=step;
 		}
+
+		geometry.addAttribute('position',new THREE.BufferAttribute(positions,3));
+		geometry.addAttribute('theta',new THREE.BufferAttribute(thetas,1));
 
 		return geometry;
 	}
@@ -112,18 +144,27 @@ var Guilloche = (function(){
 		step = step || _step;
 		zoom = zoom || _zoom;
 		color = color || _color;
-		var geometry = new THREE.Geometry();
+
+		var size = Math.floor(Math.tau/step);
+
+		var geometry = new THREE.BufferGeometry();
+		var positions = new Float32Array(size * 3);
+		var thetas = new Float32Array(size);
 
 		var rr = R+r;
 		var rp = r+p;
 		var rrr = (R+r)/r;
-		for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
-			var vertex = new THREE.Vector3();
-			vertex.x = ((rr*Math.tan(theta)) + (rp*Math.tan(rrr*theta))) * zoom;
-			vertex.y = ((rr*Math.sin(theta)) - (rp*Math.sin(rrr*theta))) * zoom;
-			vertex.z = ((rr*Math.tan(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
-			geometry.vertices.push( vertex );
+		for(var theta=0,x=0,y=0,i=0;i<size;i++) {			
+			thetas[i] = theta;
+			positions[i+0] = ((rr*Math.tan(theta)) + (rp*Math.tan(rrr*theta))) * zoom;
+			positions[i+1] = ((rr*Math.sin(theta)) - (rp*Math.sin(rrr*theta))) * zoom;
+			positions[i+2] = ((rr*Math.tan(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
+			theta+=step;
 		}
+
+		geometry.addAttribute('position',new THREE.BufferAttribute(positions,3));
+		geometry.addAttribute('theta',new THREE.BufferAttribute(thetas,1));
+
 		return geometry;
 	}
 
@@ -133,21 +174,31 @@ var Guilloche = (function(){
 		step = step || _step;
 		zoom = zoom || _zoom;
 		color = color || _color;
-		var geometry = new THREE.Geometry();
+		
+		var size = Math.floor(Math.tau/step);
+
+		var geometry = new THREE.BufferGeometry();
+		var positions = new Float32Array(size * 3);
+		var thetas = new Float32Array(size);
 
 		var rr = R+r;
 		var rp = r+p;
 		var rrr = (R+r)/r;
-		for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
-			var vertex = new THREE.Vector3();
-			vertex.x = ((rr*Math.sin(theta)) + (rp*Math.tan(rrr*theta))) * zoom;
-			vertex.y = ((rr*Math.tan(theta)) - (rp*Math.sin(rrr*theta))) * zoom;
-			vertex.z = ((rr*Math.sin(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
-			geometry.vertices.push( vertex );
+		for(var theta=0,x=0,y=0,i=0;i<size;i++) {			
+			thetas[i] = theta;
+			positions[i+0] = ((rr*Math.sin(theta)) + (rp*Math.tan(rrr*theta))) * zoom;
+			positions[i+1] = ((rr*Math.tan(theta)) - (rp*Math.sin(rrr*theta))) * zoom;
+			positions[i+2] = ((rr*Math.sin(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
+			theta+=step;
 		}
+
+		geometry.addAttribute('position',new THREE.BufferAttribute(positions,3));
+		geometry.addAttribute('theta',new THREE.BufferAttribute(thetas,1));
+
 		return geometry;
 
 	}
+
 
 	//------------------------------------------------------
 	//A knee!
@@ -156,18 +207,25 @@ var Guilloche = (function(){
 		zoom = zoom || _zoom;
 		color = color || _color;
 
-		var geometry = new THREE.Geometry();
+		var size = Math.floor(Math.tau/step);
+
+		var geometry = new THREE.BufferGeometry();
+		var positions = new Float32Array(size * 3);
+		var thetas = new Float32Array(size);
 
 		var rr = R+r;
 		var rp = r+p;
 		var rrr = (R+r)/r;
-		for(var theta=0,x=0,y=0;theta<Math.tau;theta+=step) {
-			var vertex = new THREE.Vector3();
-			vertex.x = ((rr*Math.cos(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
-			vertex.y = ((rr*Math.sin(theta)) - (rp*Math.tan(rrr*theta))) * zoom;
-			vertex.z = ((rr*Math.cos(theta)) + (rp*Math.sin(rrr*theta))) * zoom;
-			geometry.vertices.push( vertex );
+		for(var theta=0,x=0,y=0,i=0;i<size;i++) {			
+			thetas[i] = theta;
+			positions[i+0] = ((rr*Math.cos(theta)) + (rp*Math.cos(rrr*theta))) * zoom;
+			positions[i+1] = ((rr*Math.sin(theta)) - (rp*Math.tan(rrr*theta))) * zoom;
+			positions[i+2] = ((rr*Math.cos(theta)) + (rp*Math.sin(rrr*theta))) * zoom;
+			theta+=step;
 		}
+
+		geometry.addAttribute('position',new THREE.BufferAttribute(positions,3));
+		geometry.addAttribute('theta',new THREE.BufferAttribute(thetas,1));
 
 		return geometry;
 	}
@@ -178,7 +236,8 @@ var Guilloche = (function(){
 		ribbon:ribbon,
 		river:river,
 		cross:cross,
-		knee:knee
+		knee:knee,
+		shell:shell
 	}
 
 })();

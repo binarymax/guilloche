@@ -17,22 +17,196 @@
 
 	<div id="guilloche"></div>
 
-	<script type="x-shader/x-vertex" id="vertexshader">
+	<script type="x-shader/x-vertex" id="vertexshader_cross">
 		#ifdef GL_ES
 		precision highp float;
 		#endif
 
-		uniform float amplitude;
+		attribute float theta;
+		uniform float amplitude,zoom,R,Rs,r,rs,p,ps;
 		varying vec3 vNormal;
 
 		void main() {
 			vNormal = normal;
-			vec3 nwPosition = position + 1.0 * vec3( amplitude );
+			
+			float rr = R+r;
+			float rp = r+p;
+			float rrr = (R+r)/r;
+			vec3 nwPosition = vec3( 
+				rr*sin(theta) + rp*tan(rrr*theta) * 20.0,
+				rr*tan(theta) - rp*sin(rrr*theta) * 20.0,
+				rr*sin(theta) + rp*cos(rrr*theta) * 20.0
+			);
+
 			vec4 mvPosition = modelViewMatrix * vec4( nwPosition, 1.0 );
 			gl_PointSize = 1.0;
 			gl_Position = projectionMatrix * mvPosition;
 		}
 	</script>
+
+	<script type="x-shader/x-vertex" id="vertexshader_rosette">
+		#ifdef GL_ES
+		precision highp float;
+		#endif
+
+		attribute float theta;
+		uniform float amplitude,zoom,R,Rs,r,rs,p,ps;
+		varying vec3 vNormal;
+
+		void main() {
+			vNormal = normal;
+			
+			float rr = R+r;
+			float rp = r+p;
+			float rrr = (R+r)/r;
+			vec3 nwPosition = vec3( 
+				rr*cos(theta) + rp*cos(rrr*theta) * 20.0,
+				rr*sin(theta) - rp*sin(rrr*theta) * 20.0,
+				rr*sin(theta) + rp*cos(rrr*theta) * 20.0
+			);
+
+			vec4 mvPosition = modelViewMatrix * vec4( nwPosition, 1.0 );
+			gl_PointSize = 1.0;
+			gl_Position = projectionMatrix * mvPosition;
+		}
+	</script>
+
+	<script type="x-shader/x-vertex" id="vertexshader_river">
+		#ifdef GL_ES
+		precision highp float;
+		#endif
+
+		attribute float theta;
+		uniform float amplitude,zoom,R,Rs,r,rs,p,ps;
+		varying vec3 vNormal;
+
+		void main() {
+			vNormal = normal;
+			
+			float rr = R+r;
+			float rp = r+p;
+			float rrr = (R+r)/r;
+			vec3 nwPosition = vec3( 
+				rr*tan(theta) + rp*tan(rrr*theta) * 20.0,
+				rr*sin(theta) - rp*sin(rrr*theta) * 20.0,
+				rr*tan(theta) + rp*cos(rrr*theta) * 20.0
+			);
+
+			vec4 mvPosition = modelViewMatrix * vec4( nwPosition, 1.0 );
+			//gl_PointSize = 1.0;
+			gl_PointSize = theta * ( 314.285 / -mvPosition.z );
+			gl_Position = projectionMatrix * mvPosition;
+		}
+	</script>
+
+	<script type="x-shader/x-vertex" id="vertexshader_shell">
+		#ifdef GL_ES
+		precision highp float;
+		#endif
+
+		attribute float theta;
+		uniform float amplitude,zoom,R,Rs,r,rs,p,ps;
+		varying vec3 vNormal;
+
+		void main() {
+			vNormal = normal;
+			
+			float rr = R+r;
+			float rp = r+p;
+			float rrr = (R+r)/r;
+			vec3 nwPosition = vec3( 
+				rr*cos(theta) + rp*cos(rrr*theta) * 20.0,
+				rr*sin(theta) + rp*sin(rrr*theta) * 20.0,
+				rr*tan(theta) + rp*tan(rrr*theta) * 20.0
+			);
+
+			vec4 mvPosition = modelViewMatrix * vec4( nwPosition, 1.0 );
+			gl_PointSize = 1.0;
+			gl_Position = projectionMatrix * mvPosition;
+		}
+	</script>
+
+	<script type="x-shader/x-vertex" id="vertexshader_cylinder">
+		#ifdef GL_ES
+		precision highp float;
+		#endif
+
+		attribute float theta;
+		uniform float amplitude,zoom,R,Rs,r,rs,p,ps;
+		varying vec3 vNormal;
+
+		void main() {
+			vNormal = normal;
+			
+			float rr = R+r;
+			float rp = r+p;
+			float rrr = (R+r)/r;
+			vec3 nwPosition = vec3( 
+				rr*cos(theta) + rp*sin(rrr*theta) * 20.0,
+				rr*sin(theta) - rp*sin(rrr*theta) * 20.0,
+				rr*cos(theta) + rp*cos(rrr*theta) * 20.0
+			);
+
+			vec4 mvPosition = modelViewMatrix * vec4( nwPosition, 1.0 );
+			gl_PointSize = 1.0;
+			gl_Position = projectionMatrix * mvPosition;
+		}
+	</script>
+
+	<script type="x-shader/x-vertex" id="vertexshader_ribbon">
+		#ifdef GL_ES
+		precision highp float;
+		#endif
+
+		attribute float theta;
+		uniform float amplitude,zoom,R,Rs,r,rs,p,ps;
+		varying vec3 vNormal;
+
+		void main() {
+			vNormal = normal;
+			
+			float rr = R+r;
+			float rp = r+p;
+			float rrr = (R+r)/r;
+			vec3 nwPosition = vec3( 
+				rr*tan(theta) + rp*tan(rrr*theta) * 20.0,
+				rr*sin(theta) - rp*cos(rrr*theta) * 20.0,
+				rr*tan(theta) + rp*sin(rrr*theta) * 20.0
+			);
+
+			vec4 mvPosition = modelViewMatrix * vec4( nwPosition, 1.0 );
+			//gl_PointSize = 1.0;
+			gl_PointSize = theta * ( 314.285 / -mvPosition.z );
+			gl_Position = projectionMatrix * mvPosition;
+		}
+	</script>
+
+	<script type="x-shader/x-vertex" id="vertexshader_knee">
+		#ifdef GL_ES
+		precision highp float;
+		#endif
+
+		attribute float theta;
+		uniform float amplitude,zoom,R,Rs,r,rs,p,ps;
+		varying vec3 vNormal;
+
+		void main() {
+			vNormal = normal;
+			
+			float rr = R+r;
+			float rp = r+p;
+			float rrr = (R+r)/r;
+			vec3 nwPosition = vec3( 
+				rr*cos(theta) + rp*cos(rrr*theta) * 20.0,
+				rr*sin(theta) - rp*tan(rrr*theta) * 20.0,
+				rr*cos(theta) + rp*sin(rrr*theta) * 20.0
+			);
+
+			vec4 mvPosition = modelViewMatrix * vec4( nwPosition, 1.0 );
+			gl_PointSize = 1.0;
+			gl_Position = projectionMatrix * mvPosition;
+		}
+	</script>	
 
 	<script type="x-shader/x-fragment" id="fragmentshader">
 		#ifdef GL_ES
@@ -49,8 +223,9 @@
 
 
 	<!-- Scripts -->
-	<script type="text/javascript" src="mic.js"></script>
 	<script type="text/javascript" src="three.js"></script>
+	<script type="text/javascript" src="ease.js"></script>
+	<!--<script type="text/javascript" src="mic.js"></script>-->
 	<script type="text/javascript" src="guilloche3d.js"></script>
 	<script type="text/javascript" src="animate3d.js"></script>
 	<script type="text/javascript" src="index3d.js"></script>

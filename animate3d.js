@@ -22,30 +22,40 @@ var Animate = (function(){
 		this.scene = new THREE.Scene();
 
 		this.frame = 0;
-		this.ambient = 0;
+		this.ambient = [];
 
-		this.materials = new THREE.PointsMaterial( { size: 1 } );
+		this.uniforms = [];
+		this.attributes = [];
+		this.shaders = [];
 
-		this.uniforms = {
-			amplitude:{
-				type:'f',
-				value:0
-			}
-		};
-
-		var vertexshader = document.getElementById("vertexshader").innerText;
+		
 		var fragmentshader = document.getElementById("fragmentshader").innerText;
-
-		this.shadermaterial = new THREE.ShaderMaterial({
-			uniforms: self.uniforms,
-			vertexShader: vertexshader,
-			fragmentShader: fragmentshader
-		});
 
 		for(var i=0;i<settings.length;i++) {
 			var set = settings[i];
 			var geo = set.fn(set.R, set.r, set.p, set.step, set.zoom);
-			var pts = new THREE.Points( geo, this.shadermaterial );
+			
+			var vertexshader = document.getElementById("vertexshader_" + set.name).innerText;
+
+			self.uniforms[set.name] = {
+				amplitude:{value:1.0},
+				zoom:{value:set.zoom},
+				R: {value:set.R},
+				Rs:{value:set.Rs},
+				r: {value:set.r},
+				rs:{value:set.rs},
+				p: {value:set.p},
+				ps:{value:set.ps}
+			};
+
+			self.shaders[set.name] = new THREE.ShaderMaterial({
+				uniforms: self.uniforms[set.name],
+				vertexShader: vertexshader,
+				fragmentShader: fragmentshader
+			});
+			
+			var pts = new THREE.Points( geo, self.shaders[set.name] );
+			pts.name = set.name;
 			this.scene.add( pts );
 		}
 
@@ -70,26 +80,55 @@ var Animate = (function(){
 		self.camera.position.y += ( - self.mouseY - self.camera.position.y ) * 0.05;
 		self.camera.lookAt( self.scene.position );
 
-		for ( i = 0; i < self.scene.children.length; i++ ) {
-			var object = self.scene.children[i];
-			if (object instanceof THREE.Points) {
-				object.rotation.y = time * ((i<4) ? (i+4) : (-(i+4)));
+		var ambient = self.ambient.pop()||0;
+
+		for(var i=0;i<self.settings.length;i++) {
+			var setting = self.settings[i];
+			var object = self.scene.getObjectByName(self.settings[i].name);
+			object.rotation.y = time * ((i<4) ? (i+2) : (-(i+2)));
+
+			if (setting.Rs) {
+				setting.R = (self.uniforms[setting.name].R.value += setting.Rs);
+				if(setting.R<=setting.Rmin || setting.R>=setting.Rmax) setting.Rs*=-1;
 			}
+
+			if (setting.rs) {
+				setting.r = (self.uniforms[setting.name].r.value += setting.rs);
+				if(setting.r<=setting.rmin || setting.r>=setting.rmax) setting.rs*=-1;
+			}
+
+			if (setting.ps) {
+				setting.p = (self.uniforms[setting.name].p.value += setting.ps);
+				if(setting.p<=setting.pmin || setting.p>=setting.rmax) setting.ps*=-1;
+			}
+			
+
+			//Use the microphone to move the points:
+			//self.uniforms[setting.name].amplitude.value = ambient;
+			//console.log(self.uniforms[setting.name].amplitude.value);
+
 		}
 
-		//self.frame+=0.05;
-		//self.uniforms.amplitude.value = Math.sin(self.frame)*50;
-		self.uniforms.amplitude.value = self.ambient;
+		//Rock the boat with a sin wave
+		//self.uniforms.amplitude.value = Math.sin(self.frame+=0.05)*50;
+		
 
 		self.renderer.render( self.scene, self.camera );
 	};
 
+	/*
 	Animator.prototype.listen = function() {
 		var self = this;
 		mic.listen(function(val){
-			self.ambient = val;
+			if (val instanceof Array) {
+				self.ambient = self.ambient.concat(val);
+			} else {
+				self.ambient.push(val);
+			}
+
 		});
 	};
+	*/
 
 	Animator.prototype.loop = function() {
 		var self = this;
@@ -103,7 +142,7 @@ var Animate = (function(){
 
 	return function(id,width,height,settings) {
 		var a = new Animator(id,width,height,settings);
-		a.listen();
+		//a.listen();
 		a.loop();
 		return a;
 	}
