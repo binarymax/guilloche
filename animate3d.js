@@ -1,5 +1,5 @@
 var Animate = (function(){
-
+	
 	var Animator = function(id,width,height,settings) {
 		
 		var self = this;
@@ -66,30 +66,73 @@ var Animate = (function(){
 		this.renderer.setSize( width, height );
 		this.container.appendChild( this.renderer.domElement );
 
-		//document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-		//document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-		//document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-		//window.addEventListener( 'resize', onWindowResize, false );
-
 		this.on = true;
 
+		window.addEventListener( 'resize', function onWindowResize() {
+
+			self.width = window.innerWidth;
+			self.height = window.innerHeight;
+			self.halfx = window.innerWidth / 2;
+			self.halfy = window.innerHeight / 2;
+
+			self.camera.aspect = self.width / self.height;
+			self.camera.updateProjectionMatrix();
+
+			self.renderer.setSize( self.width, self.height );
+
+		}, false );
+
+
+		document.documentElement.requestFullscreen = document.documentElement.requestFullscreen || 
+			document.documentElement.webkitRequestFullscreen || 
+			document.documentElement.mozRequestFullScreen || 
+			document.documentElement.webkitRequestFullscreen;
+
+		document.exitFullscreen = document.exitFullscreen || 
+			document.webkitExitFullscreen || 
+			document.mozCancelFullScreen || 
+			document.webkitExitFullscreen;
+
+		function toggleFullScreen() {
+			if (!document.fullscreenElement) {
+				document.documentElement.requestFullscreen();
+			} else {
+				if (document.exitFullscreen) {
+					document.exitFullscreen(); 
+				}
+			}
+		}
+
+		document.addEventListener("keydown", function(e) {
+			if (e.keyCode == 13) {
+				toggleFullScreen();
+			}
+		}, false);
 	};
 
 	Animator.prototype.render = function() {
 		var self = this;
-		var time = Date.now() * 0.00005;
+		var time = Date.now() * 0.0000000000005;
 		self.camera.position.x += ( self.mouseX - self.camera.position.x ) * 0.05;
 		self.camera.position.y += ( - self.mouseY - self.camera.position.y ) * 0.05;
 		self.camera.lookAt( self.scene.position );
 
-		var ambient = (self.ambient.pop()||0)/2;
-		//console.log(ambient);
+		var ambient = Math.max((self.ambient.pop()||0)/2,0);
 
+		var axi = ['y','x','z'];
 		for(var i=0;i<self.settings.length;i++) {
 			var setting = self.settings[i];
 			var object = self.scene.getObjectByName(self.settings[i].name);
-			object.rotation.y = time * ((i<4) ? (i+2) : (-(i+2)));
+			var div = ambient||1;
+			var rot = (div/(Math.PI*100-Math.PI*50));
+			var def = Math.tau/(360*12);
+			var prp = axi[i%2];
+			object.rotation[prp] += (rot>0?Math.max(rot,def):Math.min(rot,-def)) * (i%2?-1:1);// + ((i+1)*def/2);
+			//object.rotation.x += (rot>0?Math.max(rot,def):Math.min(rot,-def)) * (i%2?-1:1);// + ((i+1)*def/2);
+			//object.rotation.z += (rot>0?Math.max(rot,def):Math.min(rot,-def)) * (i%2?-1:1);// + ((i+1)*def/2);
+			//object.rotation.y = time * ((i<4) ? (i+2) : (-(i+2)));
 			//object.rotation.x = time * ((i>4) ? (i+2) : (-(i+2)));
+			//object.rotation.z = time * ((i>4) ? (i+3) : (-(i+3)));
 
 			if (setting.Rs) {
 				setting.R = (self.uniforms[setting.name].R.value += setting.Rs);
@@ -109,7 +152,6 @@ var Animate = (function(){
 
 			//Use the microphone to move the points:
 			self.uniforms[setting.name].amplitude.value = ambient;
-			//console.log(self.uniforms[setting.name].amplitude.value);
 
 		}
 
