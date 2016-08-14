@@ -29,7 +29,7 @@
 		void main() {
 			vNormal = normal;
 			
-			float rr = R+r;
+			float rr = (R+r) + amplitude;
 			float rp = r+p;
 			float rrr = (R+r)/r;
 			vec3 nwPosition = vec3( 
@@ -56,13 +56,15 @@
 		void main() {
 			vNormal = normal;
 			
-			float rr = R+r;
-			float rp = r+p;
+			float zoomx = 20.0;
+
+			float rr = (R+r) + amplitude;
+			float rp = (r+p);
 			float rrr = (R+r)/r;
 			vec3 nwPosition = vec3( 
-				rr*cos(theta) + rp*cos(rrr*theta) * 20.0,
-				rr*sin(theta) - rp*sin(rrr*theta) * 20.0,
-				rr*sin(theta) + rp*cos(rrr*theta) * 20.0
+				rr*cos(theta) + rp*cos(rrr*theta) * zoomx,
+				rr*sin(theta) - rp*sin(rrr*theta) * zoomx,
+				rr*sin(theta) + rp*cos(rrr*theta) * zoomx
 			);
 
 			vec4 mvPosition = modelViewMatrix * vec4( nwPosition, 1.0 );
@@ -83,7 +85,7 @@
 		void main() {
 			vNormal = normal;
 			
-			float rr = R+r;
+			float rr = (R+r) + amplitude;
 			float rp = r+p;
 			float rrr = (R+r)/r;
 			vec3 nwPosition = vec3( 
@@ -93,8 +95,8 @@
 			);
 
 			vec4 mvPosition = modelViewMatrix * vec4( nwPosition, 1.0 );
-			//gl_PointSize = 1.0;
-			gl_PointSize = theta * ( 314.285 / -mvPosition.z );
+			gl_PointSize = 1.0;
+			//gl_PointSize = theta * ( 314.285 / -mvPosition.z );
 			gl_Position = projectionMatrix * mvPosition;
 		}
 	</script>
@@ -111,7 +113,7 @@
 		void main() {
 			vNormal = normal;
 			
-			float rr = R+r;
+			float rr = (R+r) + amplitude;
 			float rp = r+p;
 			float rrr = (R+r)/r;
 			vec3 nwPosition = vec3( 
@@ -138,7 +140,7 @@
 		void main() {
 			vNormal = normal;
 			
-			float rr = R+r;
+			float rr = (R+r) + amplitude;
 			float rp = r+p;
 			float rrr = (R+r)/r;
 			vec3 nwPosition = vec3( 
@@ -165,7 +167,7 @@
 		void main() {
 			vNormal = normal;
 			
-			float rr = R+r;
+			float rr = (R+r) + amplitude;
 			float rp = r+p;
 			float rrr = (R+r)/r;
 			vec3 nwPosition = vec3( 
@@ -175,8 +177,8 @@
 			);
 
 			vec4 mvPosition = modelViewMatrix * vec4( nwPosition, 1.0 );
-			//gl_PointSize = 1.0;
-			gl_PointSize = theta * ( 314.285 / -mvPosition.z );
+			gl_PointSize = 1.0;
+			//gl_PointSize = theta * ( 314.285 / -mvPosition.z );
 			gl_Position = projectionMatrix * mvPosition;
 		}
 	</script>
@@ -193,7 +195,7 @@
 		void main() {
 			vNormal = normal;
 			
-			float rr = R+r;
+			float rr = (R+r) + amplitude;
 			float rp = r+p;
 			float rrr = (R+r)/r;
 			vec3 nwPosition = vec3( 
@@ -204,6 +206,7 @@
 
 			vec4 mvPosition = modelViewMatrix * vec4( nwPosition, 1.0 );
 			gl_PointSize = 1.0;
+			//gl_PointSize = theta * ( 314.285 / -mvPosition.z );
 			gl_Position = projectionMatrix * mvPosition;
 		}
 	</script>	
@@ -213,19 +216,31 @@
 		precision highp float;
 		#endif
 
+		uniform sampler2D texture;
+
+		varying vec3 vColor;
+		varying vec3 vNormal;
+
+		void main() {
+			vec3 fNormal = vNormal;
+			gl_FragColor = vec4(1.0 , 1.0 , 1.0 , 1.0);
+			//gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
+		}
+		/*
 		varying vec3 vNormal;
 
 		void main() {
 			vec3 fNormal = vNormal;
 			gl_FragColor = vec4(1.0,1.0,1.0,1.0);
 		}
+		*/
 	</script>
 
 
 	<!-- Scripts -->
 	<script type="text/javascript" src="three.js"></script>
 	<script type="text/javascript" src="ease.js"></script>
-	<!--<script type="text/javascript" src="mic.js"></script>-->
+	<script type="text/javascript" src="mic.js"></script>
 	<script type="text/javascript" src="guilloche3d.js"></script>
 	<script type="text/javascript" src="animate3d.js"></script>
 	<script type="text/javascript" src="index3d.js"></script>

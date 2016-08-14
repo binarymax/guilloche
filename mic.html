@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Ambient Guilloche</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	</head>
+<body>
+
+	<h2>Mic test</h2>
+	<div id="data"></div>
+
+	<script type="text/javascript" src="mic.js"></script>
+	<script type="text/javascript">
+		var d = document.getElementById("data");
+		var m = 0;
+		mic.listen(function(val){
+			if (val>m) m = val;
+			d.innerHTML = m;
+		});
+	</script>
+
+</body>
+</html>

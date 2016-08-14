@@ -38,6 +38,7 @@ var Animate = (function(){
 			var vertexshader = document.getElementById("vertexshader_" + set.name).innerText;
 
 			self.uniforms[set.name] = {
+				texture:{value:new THREE.TextureLoader().load("circle.png")},
 				amplitude:{value:1.0},
 				zoom:{value:set.zoom},
 				R: {value:set.R},
@@ -81,11 +82,13 @@ var Animate = (function(){
 		self.camera.lookAt( self.scene.position );
 
 		var ambient = self.ambient.pop()||0;
+		//console.log(ambient);
 
 		for(var i=0;i<self.settings.length;i++) {
 			var setting = self.settings[i];
 			var object = self.scene.getObjectByName(self.settings[i].name);
 			object.rotation.y = time * ((i<4) ? (i+2) : (-(i+2)));
+			//object.rotation.x = time * ((i>4) ? (i+2) : (-(i+2)));
 
 			if (setting.Rs) {
 				setting.R = (self.uniforms[setting.name].R.value += setting.Rs);
@@ -104,7 +107,7 @@ var Animate = (function(){
 			
 
 			//Use the microphone to move the points:
-			//self.uniforms[setting.name].amplitude.value = ambient;
+			self.uniforms[setting.name].amplitude.value = ambient;
 			//console.log(self.uniforms[setting.name].amplitude.value);
 
 		}
@@ -116,7 +119,7 @@ var Animate = (function(){
 		self.renderer.render( self.scene, self.camera );
 	};
 
-	/*
+	
 	Animator.prototype.listen = function() {
 		var self = this;
 		mic.listen(function(val){
@@ -125,10 +128,9 @@ var Animate = (function(){
 			} else {
 				self.ambient.push(val);
 			}
-
 		});
 	};
-	*/
+	
 
 	Animator.prototype.loop = function() {
 		var self = this;
@@ -142,7 +144,7 @@ var Animate = (function(){
 
 	return function(id,width,height,settings) {
 		var a = new Animator(id,width,height,settings);
-		//a.listen();
+		a.listen();
 		a.loop();
 		return a;
 	}
