@@ -29,18 +29,19 @@ var Animate = (function(){
 		this.shaders = [];
 
 		
+		var vertextemplate = document.getElementById("vertextemplate").innerText;
 		var fragmentshader = document.getElementById("fragmentshader").innerText;
 
 		for(var i=0;i<settings.length;i++) {
 			var set = settings[i];
 			var geo = set.fn(set.R, set.r, set.p, set.step, set.zoom);
 			
-			var vertexshader = document.getElementById("vertexshader_" + set.name).innerText;
+			var vertexshader = vertextemplate.replace('{{model}}',set.fn.shader);
 
 			self.uniforms[set.name] = {
 				texture:{value:new THREE.TextureLoader().load("circle.png")},
 				amplitude:{value:1.0},
-				zoom:{value:set.zoom},
+				zoom:{value:set.zoom*1.0},
 				R: {value:set.R},
 				Rs:{value:set.Rs},
 				r: {value:set.r},
@@ -81,7 +82,7 @@ var Animate = (function(){
 		self.camera.position.y += ( - self.mouseY - self.camera.position.y ) * 0.05;
 		self.camera.lookAt( self.scene.position );
 
-		var ambient = self.ambient.pop()||0;
+		var ambient = (self.ambient.pop()||0)/2;
 		//console.log(ambient);
 
 		for(var i=0;i<self.settings.length;i++) {
@@ -148,37 +149,5 @@ var Animate = (function(){
 		a.loop();
 		return a;
 	}
-
-
-	/*
-	function onWindowResize() {
-		windowHalfX = window.innerWidth / 2;
-		windowHalfY = window.innerHeight / 2;
-		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.updateProjectionMatrix();
-		renderer.setSize( window.innerWidth, window.innerHeight );
-	}
-
-	function onDocumentMouseMove( event ) {
-		mouseX = event.clientX - windowHalfX;
-		mouseY = event.clientY - windowHalfY;
-	}
-
-	function onDocumentTouchStart( event ) {
-		if ( event.touches.length === 1 ) {
-			event.preventDefault();
-			mouseX = event.touches[ 0 ].pageX - windowHalfX;
-			mouseY = event.touches[ 0 ].pageY - windowHalfY;
-		}
-	}
-
-	function onDocumentTouchMove( event ) {
-		if ( event.touches.length === 1 ) {
-			event.preventDefault();
-			mouseX = event.touches[ 0 ].pageX - windowHalfX;
-			mouseY = event.touches[ 0 ].pageY - windowHalfY;
-		}
-	}
-	*/
 
 })();

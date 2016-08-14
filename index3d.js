@@ -15,7 +15,7 @@
 		ps : Math.tau/10000000,
 		pmin : 4,
 		pmax : 20,
-		zoom : 4,
+		zoom : 20,
 		step : 0.00005
 	};
 	var cylinder = {
@@ -33,7 +33,7 @@
 		ps : Math.tau/10000000,
 		pmin : 4,
 		pmax : 20,
-		zoom : 4,
+		zoom : 20,
 		step : 0.00005
 	};
 	var ribbon = {
@@ -51,7 +51,7 @@
 		ps : Math.tau/1000000,
 		pmin : 4,
 		pmax : 20,
-		zoom : 4,
+		zoom : 18,
 		step : 0.0001
 	};
 	var rosette = {
@@ -69,7 +69,7 @@
 		ps : Math.tau/10000000,
 		pmin : 4,
 		pmax : 20,
-		zoom : 4,
+		zoom : 18,
 		step : 0.00005
 	};
 	var river = {
@@ -87,7 +87,7 @@
 		ps : Math.tau/10000000,
 		pmin : 4,
 		pmax : 20,
-		zoom : 4,
+		zoom : 12,
 		step : 0.00005
 	};
 	var knee = {
@@ -105,7 +105,7 @@
 		ps : Math.tau/1000000,
 		pmin : 4,
 		pmax : 20,
-		zoom : 4,
+		zoom : 20,
 		step : 0.0001
 	};
 	var shell = {
@@ -123,19 +123,19 @@
 		ps : Math.tau/10000000,
 		pmin : 4,
 		pmax : 20,
-		zoom : 4,
+		zoom : 10,
 		step : 0.0001
 	};
 
 	var models = [];
 
-	if(0) models.push(cross);
-	if(0) models.push(cylinder);
+	if(1) models.push(cross);
+	if(1) models.push(cylinder);
 	if(1) models.push(ribbon);
-	if(0) models.push(rosette);
+	if(1) models.push(rosette);
 	if(1) models.push(river);
 	if(1) models.push(knee);
-	if(0) models.push(shell);
+	if(1) models.push(shell);
 
 	var ambiance = Animate('guilloche',window.innerWidth,window.innerHeight,models);
 

@@ -5,22 +5,11 @@ var Guilloche = (function(){
 	var _step = 0.0001;
 	var _zoom = 5;
 
-	var _color = function(theta,step){
-		var c = Math.round(theta*(1/step))%255; 
-		return {
-			r:c,
-			g:c,
-			b:c,
-			a:255
-		};
-	}
-
 	//------------------------------------------------------
 	//A rosette!
-	var rosette = function(R,r,p,step,zoom,color) {
+	var rosette = function(R,r,p,step,zoom) {
 		step = step || _step;
 		zoom = zoom || _zoom;
-		color = color || _color;
 
 		var size = Math.floor(Math.tau/step);
 
@@ -45,12 +34,16 @@ var Guilloche = (function(){
 		return geometry;
 	}
 
+	rosette.shader = 
+		"rr*cos(theta) + rp*cos(rrr*theta) * zoom,"+
+		"rr*sin(theta) - rp*sin(rrr*theta) * zoom,"+
+		"rr*sin(theta) + rp*cos(rrr*theta) * zoom";
+
 	//------------------------------------------------------
 	//A shell!
-	var shell = function(R,r,p,step,zoom,color) {
+	var shell = function(R,r,p,step,zoom) {
 		step = step || _step;
 		zoom = zoom || _zoom;
-		color = color || _color;
 
 		var size = Math.floor(Math.tau/step);
 
@@ -76,12 +69,16 @@ var Guilloche = (function(){
 		return geometry;
 	}
 
+	shell.shader = 
+		"rr*cos(theta) + rp*cos(rrr*theta) * zoom,"+
+		"rr*sin(theta) + rp*sin(rrr*theta) * zoom,"+
+		"rr*tan(theta) + rp*tan(rrr*theta) * zoom";
+
 	//------------------------------------------------------
 	//A cylinder!
-	var cylinder = function(R,r,p,step,zoom,color) {
+	var cylinder = function(R,r,p,step,zoom) {
 		step = step || _step;
 		zoom = zoom || _zoom;
-		color = color || _color;
 
 		var size = Math.floor(Math.tau/step);
 
@@ -107,12 +104,16 @@ var Guilloche = (function(){
 		return geometry;
 	}
 
+	cylinder.shader = 
+		"rr*cos(theta) + rp*sin(rrr*theta) * zoom,"+
+		"rr*sin(theta) - rp*sin(rrr*theta) * zoom,"+
+		"rr*cos(theta) + rp*cos(rrr*theta) * zoom";
+
 	//------------------------------------------------------
 	//A ribbon!
-	var ribbon = function(R,r,p,step,zoom,color) {
+	var ribbon = function(R,r,p,step,zoom) {
 		step = step || _step;
 		zoom = zoom || _zoom;
-		color = color || _color;
 
 
 		var size = Math.floor(Math.tau/step);
@@ -138,12 +139,17 @@ var Guilloche = (function(){
 		return geometry;
 	}
 
+	ribbon.shader = 
+		"rr*tan(theta) + rp*tan(rrr*theta) * zoom,"+
+		"rr*sin(theta) - rp*cos(rrr*theta) * zoom,"+
+		"rr*tan(theta) + rp*sin(rrr*theta) * zoom";
+
+
 	//------------------------------------------------------
 	//A river!
-	var river = function(R,r,p,step,zoom,color) {
+	var river = function(R,r,p,step,zoom) {
 		step = step || _step;
 		zoom = zoom || _zoom;
-		color = color || _color;
 
 		var size = Math.floor(Math.tau/step);
 
@@ -168,12 +174,17 @@ var Guilloche = (function(){
 		return geometry;
 	}
 
+	river.shader = 
+		"rr*tan(theta) + rp*tan(rrr*theta) * zoom,"+
+		"rr*sin(theta) - rp*sin(rrr*theta) * zoom,"+
+		"rr*tan(theta) + rp*cos(rrr*theta) * zoom";
+
+
 	//------------------------------------------------------
 	//A cross!
-	var cross = function(R,r,p,step,zoom,color) {
+	var cross = function(R,r,p,step,zoom) {
 		step = step || _step;
 		zoom = zoom || _zoom;
-		color = color || _color;
 		
 		var size = Math.floor(Math.tau/step);
 
@@ -199,13 +210,17 @@ var Guilloche = (function(){
 
 	}
 
+	cross.shader = 
+		"rr*sin(theta) + rp*tan(rrr*theta) * zoom,"+
+		"rr*tan(theta) - rp*sin(rrr*theta) * zoom,"+
+		"rr*sin(theta) + rp*cos(rrr*theta) * zoom";
+
 
 	//------------------------------------------------------
 	//A knee!
-	var knee = function(R,r,p,step,zoom,color) {
+	var knee = function(R,r,p,step,zoom) {
 		step = step || _step;
 		zoom = zoom || _zoom;
-		color = color || _color;
 
 		var size = Math.floor(Math.tau/step);
 
@@ -230,6 +245,12 @@ var Guilloche = (function(){
 		return geometry;
 	}
 
+	knee.shader = 
+		"rr*cos(theta) + rp*cos(rrr*theta) * zoom,"+
+		"rr*sin(theta) - rp*tan(rrr*theta) * zoom,"+
+		"rr*cos(theta) + rp*sin(rrr*theta) * zoom";
+
+	//------------------------------------------------------
 	return {
 		cylinder:cylinder,
 		rosette:rosette,
