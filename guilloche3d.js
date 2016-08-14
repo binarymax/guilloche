@@ -131,6 +131,19 @@ var Guilloche = (function(){
 			"rr*cos(theta) + rp*sin(rrr*theta) * zoom";
 
 	//------------------------------------------------------
+	//A donut!
+	var donut = geobuffer(
+			function(rr,rp,rrr,theta,zoom) { return ((rr*Math.cos(theta)) + (rp*Math.sin(rrr*theta))) * zoom;},
+			function(rr,rp,rrr,theta,zoom) { return ((rr*Math.sin(theta)) + (rp*Math.sin(rrr*theta))) * zoom;},
+			function(rr,rp,rrr,theta,zoom) { return ((rr*Math.sin(theta)) + (rp*Math.cos(rrr*theta))) * zoom;}
+		);
+	
+		donut.shader = 
+			"rr*cos(theta) + rp*sin(rrr*theta) * zoom,"+
+			"rr*sin(theta) + rp*sin(rrr*theta) * zoom,"+
+			"rr*sin(theta) + rp*cos(rrr*theta) * zoom";
+
+	//------------------------------------------------------
 	return {
 		cylinder:cylinder,
 		rosette:rosette,
@@ -138,7 +151,8 @@ var Guilloche = (function(){
 		river:river,
 		cross:cross,
 		knee:knee,
-		shell:shell
+		shell:shell,
+		donut:donut
 	}
 
 })();
